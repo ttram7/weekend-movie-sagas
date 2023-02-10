@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom'; 
 import './MovieList.css'
 
 function MovieList() {
@@ -11,6 +12,13 @@ function MovieList() {
         dispatch({ type: 'FETCH_MOVIES' });
     }, []);
 
+    const history = useHistory();
+
+    const selectMovie = (movieId) => {
+        dispatch({type: 'DISPLAY_DETAILS', action: movieId});
+        history.push('/details');
+    }
+
     return (
         <main>
             <h1>MovieList</h1>
@@ -19,7 +27,7 @@ function MovieList() {
                     return (
                         <div key={movie.id} >
                             <h3>{movie.title}</h3>
-                            <img src={movie.poster} alt={movie.title}/>
+                            <img src={movie.poster} alt={movie.title} onClick = {() => selectMovie(movie.id)}/>
                         </div>
                     );
                 })}
