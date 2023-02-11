@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'; 
 import './MovieList.css'
 
+import Grid from '@material-ui/core/Grid'
+import Card from '@material-ui/core/Card'
+
 function MovieList() {
 
     const dispatch = useDispatch();
@@ -19,25 +22,31 @@ function MovieList() {
         console.log('in MovieList',movieId)
         // maybe genre only?]
         // send selected movie data to redux not saga
-        dispatch({type: 'DISPLAY_DETAILS', payload: movieId});
-        if (thisMovie.length === 1) {
-            history.push('/details');
-        }
+        dispatch({type: 'STORE_ID', payload: movieId })
+        //dispatch({type: 'FETCH_MOVIE', payload: movieId});
+        // if (thisMovie.length === 1) {
+        //     history.push('/details');
+        // }
+        history.push('/details');
         
     }
-
+    console.log(movies);
     return (
         <main>
             <h1>MovieList</h1>
             <section className="movies">
+            <Grid container>
                 {movies.map(movie => {
                     return (
-                        <div key={movie.id} >
-                            <h3>{movie.title}</h3>
-                            <img src={movie.poster} alt={movie.title} onClick = {() => selectMovie(movie.id)}/>
-                        </div>
+                        <Grid item key={movie.id} >
+                            <Card>
+                                <h3>{movie.title}</h3>
+                                <img src={movie.poster} alt={movie.title} onClick = {() => selectMovie(movie.id)}/>
+                            </Card>
+                        </Grid>
                     );
                 })}
+            </Grid>
             </section>
         </main>
 

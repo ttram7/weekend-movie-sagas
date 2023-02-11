@@ -14,8 +14,8 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
-    yield takeEvery('DISPLAY_DETAILS', fetchSelectedMovie);
-    yield takeEvery('FETCH_GENRE', fetchGenre);
+    yield takeEvery('FETCH_MOVIE', fetchSelectedMovie);
+    yield takeEvery('FETCH_GENRES', fetchGenres);
 }
 
 function* fetchAllMovies() {
@@ -35,6 +35,7 @@ function* fetchSelectedMovie(action) {
     try {
         console.log('id in fetchSelectedMovie', action.payload)
         const selectedMovie = yield axios.get(`/api/movie/${action.payload}`); //id
+        console.log('get movie:', selectedMovie.data);
         yield put({ type: 'SET_MOVIE', payload: selectedMovie.data });
 
     } catch (error) {
@@ -42,14 +43,14 @@ function* fetchSelectedMovie(action) {
     }
     }
 
-    function* fetchGenre(action) {
+    function* fetchGenres(action) {
         try {
-            console.log('id in fetchGenre', action.payload)
-            const selectedGenre = yield axios.get(`/api//genre/${action.payload}`); //id
-            yield put({ type: 'SET_GENRE', payload: selectedGenre.data });
+            console.log('id in fetchGenres', action.payload)
+            const selectedGenres = yield axios.get(`/api/genre/${action.payload}`); //id
+            yield put({ type: 'SET_GENRES', payload: selectedGenres.data });
     
         } catch (error) {
-            console.log('get selectedMovie error', error);
+            console.log('get fetchGenres error', error);
         }
         }
 
@@ -86,12 +87,22 @@ const genres = (state = [], action) => {
     }
 }
 
+const movieId = (state = '', action) => {
+    switch (action.type) {
+        case 'STORE_ID':
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 // Create one store that all components can use
 const storeInstance = createStore(
     combineReducers({
         movies,
         genres,
-        selectedMovie
+        selectedMovie,
+        movieId
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),
