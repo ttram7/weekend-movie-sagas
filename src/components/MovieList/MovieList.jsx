@@ -7,6 +7,7 @@ function MovieList() {
 
     const dispatch = useDispatch();
     const movies = useSelector(store => store.movies);
+    const thisMovie = useSelector(store => store.selectedMovie);
 
     useEffect(() => {
         dispatch({ type: 'FETCH_MOVIES' });
@@ -16,8 +17,13 @@ function MovieList() {
 
     const selectMovie = (movieId) => {
         console.log('in MovieList',movieId)
+        // maybe genre only?]
+        // send selected movie data to redux not saga
         dispatch({type: 'DISPLAY_DETAILS', payload: movieId});
-        history.push('/details');
+        if (thisMovie.length === 1) {
+            history.push('/details');
+        }
+        
     }
 
     return (
