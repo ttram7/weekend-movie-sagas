@@ -15,7 +15,8 @@ function MovieList() {
     const history = useHistory();
 
     const selectMovie = (movieId) => {
-        dispatch({type: 'DISPLAY_DETAILS', action: movieId});
+        console.log('in MovieList',movieId)
+        dispatch({type: 'DISPLAY_DETAILS', payload: movieId});
         history.push('/details');
     }
 

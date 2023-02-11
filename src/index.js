@@ -24,19 +24,20 @@ function* fetchAllMovies() {
         console.log('get all:', movies.data);
         yield put({ type: 'SET_MOVIES', payload: movies.data });
 
-    } catch {
-        console.log('get all error');
+    } catch (error) {
+        console.log('get all error', error);
     }
         
 }
 
-function* fetchSelectedMovie() {
+function* fetchSelectedMovie(action) {
     try {
-        const selectedMovie = yield axios.get('/api/movie'); //id
-        yield put({ type: 'SET_MOVIE', payload: movies.data });
+        console.log('id in fetchSelectedMovie', action.payload)
+        const selectedMovie = yield axios.get(`/api/movie/${action.payload}`); //id
+        yield put({ type: 'SET_MOVIE', payload: selectedMovie.data });
 
-    } catch {
-        console.log('get all error');
+    } catch (error) {
+        console.log('get selectedMovie error', error);
     }
     }
 
