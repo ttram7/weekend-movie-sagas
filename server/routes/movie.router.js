@@ -31,23 +31,6 @@ router.get('/:id', (req, res) => {
 
 });
 
-router.get('/genre/:id', (req, res) => {
-  const idForGenres = req.params.id;
-  const genreQuery = `SELECT "genres"."name" FROM "movies" 
-  JOIN "movies_genres" ON "movies"."id" = "movies_genres"."movie_id"
-  JOIN "genres" ON "genres"."id" = "movies_genres"."genre_id"
-  WHERE "movies"."id" = $1`;
-  pool.query(genreQuery, [idForGenres])
-    .then( result => {
-      res.send(result.rows);
-    })
-    .catch(err => {
-      console.log('ERROR: Getting specific movie genre', err);
-      res.sendStatus(500)
-    })
-
-});
-
 router.post('/', (req, res) => {
   console.log(req.body);
   // RETURNING "id" will give us back the id of the created movie
