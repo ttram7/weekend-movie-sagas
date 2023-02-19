@@ -28,10 +28,10 @@ function MovieList() {
         <main>
             <h1>MovieList</h1>
             <section className="movies">
-            <Grid container>
+            <Grid container spacing={3}>
                 {movies.map(movie => {
                     return (
-                        <Grid item key={movie.id} >
+                        <Grid item key={movie.id} xs={3} >
                             <Card>
                                 <h3>{movie.title}</h3>
                                 <img src={movie.poster} alt={movie.title} onClick = {() => selectMovie(movie.id)}/>
